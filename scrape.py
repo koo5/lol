@@ -1,15 +1,25 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
+"""
+this thing will scrape the html files of the function
+reference inside the doc directory of picolisp
+and try to output something useful inside picolisp
+
+you will need:
+sudo apt-get install python-pip
+pip install --user Beautifulsoup4
+"""
+
 import bs4
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 import json,pprint
 import string
 
-out = OrderedDict()
 
 def scrape(fn):
+	out = OrderedDict()
 	html=open(fn, "r").read()
 	s=BeautifulSoup(html)
 
@@ -26,17 +36,15 @@ def scrape(fn):
 			if i.name == 'dd':
 				e['example'] = i.find('pre').extract().text
 				e['doc'] = i.text
-
-
-
-for l in string.ascii_uppercase+'_':
-	scrape ("ref"+l+".html")
+	return out
 
 esc = json.dumps
 
-for k, i in out.iteritems():
-	for x in i['syntax']:
-		print "(be syntax (",k,esc(x),")"
-	print "(be doc (",k,esc(i['doc']),")"
-	print "(be example (",k,esc(i['example']),")"
+for l in string.ascii_uppercase+'_':
+	out = scrape ("ref"+l+".html")
+	for k, i in out.iteritems():
+		for x in i['syntax']:
+			print "(be syntax (",k,esc(x),")"
+		print "(be doc (",k,esc(i['doc']),")"
+		print "(be example (",k,esc(i['example']),")"
 
