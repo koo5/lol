@@ -44,7 +44,11 @@ for l in string.ascii_uppercase+'_':
 	out = scrape ("ref"+l+".html")
 	for k, i in out.iteritems():
 		for x in i['syntax']:
-			print "(be syntax (",k,esc(x),")"
-		print "(be doc (",k,esc(i['doc']),")"
-		print "(be example (",k,esc(i['example']),")"
+			print "(be syntax (",k,esc(x),"))"
+			#print len(x)
+		#print len(i['example'])
+		#print len(i['doc'])
+		#if len(i['doc']) > 400:
+		print "(be doc (",k,esc(i['doc']),"))"
+		print "(be example (",k,esc(i['example']),"))"
 
