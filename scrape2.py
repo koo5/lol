@@ -11,7 +11,7 @@ then load it
 
 you will need:
 sudo apt-get install python-pip
-pip install --user Beautifulsoup4
+pip install --user Beautifulsoup4 html5lib
 """
 
 import bs4
@@ -50,6 +50,7 @@ def esc(X):
 for l in string.ascii_uppercase+'_':
 	out = scrape ("ref"+l+".html")
 	for k, i in out.iteritems():
+		if k not in ['@', '@@', '@@@']:#chicken out
 			for x in i['syntax']:
 				print "(assertz '(syntax (",k, esc(x),")))"
 			print "(assertz '(doc (",k,esc(i['doc']),")))"
