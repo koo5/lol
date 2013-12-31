@@ -56,6 +56,7 @@ for l in string.ascii_uppercase+'_':
 			print "(assertz '(doc (",k,esc(i['doc']),")))"
 			print "(assertz '(example (",k,esc(i['example']),")))"
 
-print """(de help (X)	(pilog (list(list 'syntax	X '@X)) (println @X))
-			(pilog (list(list 'doc		X '@X)) (println @X))
-			(pilog (list(list 'example	X '@X)) (println @X)))"""
+print """(de help (X)	(pilog (list(list 'syntax	X '@X)) (prinl @X))
+			(pilog (list(list 'doc		X '@X)) (prinl @X))
+			(pilog (list(list 'example	X '@X)) (prinl @X))
+			())"""
