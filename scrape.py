@@ -5,9 +5,12 @@
 this thing will scrape the html files of the function
 reference inside the doc directory of picolisp
 and try to output an .l file with pilog asserts
-run it inside the doc directory and pipe to a file
+and function "help" defined.
+run it inside the doc directory and pipe to a file,
+then load it
 
-bugs: <s in _
+bugs:	<s in _
+	^Js and \"s in output
 
 you will need:
 sudo apt-get install python-pip
@@ -42,13 +45,17 @@ def scrape(fn):
 	return out
 
 
-esc = json.dumps
+def esc(X):
+	return "\""+X.replace("\\n",chr(10)).replace("\\", "\\\\").replace("\"","\\\"").encode("utf-8")+"\""
 
 for l in string.ascii_uppercase+'_':
 	out = scrape ("ref"+l+".html")
 	for k, i in out.iteritems():
-		for x in i['syntax']:
-			print "(assertz '(syntax (",k, esc(x),")))"
-		print "(assertz '(doc (",k,esc(i['doc']),")))"
-		print "(assertz '(example (",k,esc(i['example']),")))"
+			for x in i['syntax']:
+				print "(assertz '(syntax (",k, esc(x),")))"
+			print "(assertz '(doc (",k,esc(i['doc']),")))"
+			print "(assertz '(example (",k,esc(i['example']),")))"
 
+print """(de help (X)	(pilog (list(list 'syntax	X '@X)) (println @X))
+			(pilog (list(list 'doc		X '@X)) (println @X))
+			(pilog (list(list 'example	X '@X)) (println @X)))"""
