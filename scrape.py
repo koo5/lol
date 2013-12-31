@@ -4,7 +4,10 @@
 """
 this thing will scrape the html files of the function
 reference inside the doc directory of picolisp
-and try to output something useful inside picolisp
+and try to output an .l file with pilog asserts
+run it inside the doc directory and pipe to a file
+
+bugs: <s in _
 
 you will need:
 sudo apt-get install python-pip
@@ -38,17 +41,14 @@ def scrape(fn):
 				e['doc'] = i.text
 	return out
 
+
 esc = json.dumps
 
 for l in string.ascii_uppercase+'_':
 	out = scrape ("ref"+l+".html")
 	for k, i in out.iteritems():
 		for x in i['syntax']:
-			print "(be syntax (",k,esc(x),"))"
-			#print len(x)
-		#print len(i['example'])
-		#print len(i['doc'])
-		#if len(i['doc']) > 400:
-		print "(be doc (",k,esc(i['doc']),"))"
-		print "(be example (",k,esc(i['example']),"))"
+			print "(assertz '(syntax (",k, esc(x),")))"
+		print "(assertz '(doc (",k,esc(i['doc']),")))"
+		print "(assertz '(example (",k,esc(i['example']),")))"
 
