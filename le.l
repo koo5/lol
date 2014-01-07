@@ -1,12 +1,31 @@
-'(put the whole program into a variable l0, so we can access it later and edit it as l1 in the ide)
+(setq l0'(
 
+'(put the whole program into variable l0, so we can access it later and edit it as l1 in the ide)
 
-
-(setq (l0 '(
 
 '(the simplest option would be to save the representation data in attributes:
 (put 'and 'repr '(1 " and " 2))
 but...)
+
+'(are pieces classes or pairs?)
+
+(de tt (X)
+	(let V (cdr X)
+		(println (car X) V)
+		(case (car X)
+			('t 'V)
+			('ch (tt V))
+			('nl "\n")
+			(T V)
+		)
+	)
+)
+
+
+(de repr(N)
+(if (get 'X 'repr)
+		(mapcar ((I
+		(
 
 
 (class +Node)
@@ -36,11 +55,6 @@ no markup: you have a list processing language, ..
 		)
 	)
 )
-
-(de text_representation(N)
-	(mapcar ((I)( (representation N)
-		(
-
 tt
 ft
 
