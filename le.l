@@ -1,10 +1,62 @@
-(setq l0'(
+(setq l0 '(prog
 
 '(put the whole program into variable l0, so we can access it later and edit it as l1 in the ide)
 
+'(the data structures of this program:
+	node - 
+		an ast node..its unclear what it will mean here. the program should be able to 	render its own source code in a semi-lemonic way, and be fully able to manipulate its own native nodes..which might be the same, or not...
+	pieces - 
+		newline, child(name), "text", space; these say how a node should appear
+	template - 
+		a sequence of pieces
+	markup - the resulting tree structure that the renderer deals with
+)
 
-'(the simplest option would be to save the representation data in attributes:
-(put 'and 'repr '(1 " and " 2))
+(de hc (N)
+	(hc4bits N (bits4node N))
+)
+
+(de bits4node (N)
+	(if (lst? N)
+		(if (== (car N) NIL)
+			'((t "nil")))
+		(if (get (car N) 'template)
+			'((@)))
+	)
+)
+
+(de hc4bits (N B)
+	(println "generating markup for node" N "with template" B)
+	(append '((node N)) (mapcar hc4bit T) '((/node)))
+)
+
+(de hc4bit (B)
+	(let (V (cdr B))
+		(case (car B)
+			('t V)
+			(T "fuck" )
+		)
+	)
+)
+
+(put 'and 'template '((t "1 and 2")))
+
+(load "s2.l")
+
+))(l0)
+
+
+(setq l1 '(and 2 3))
+(println (hc l1))
+
+'(get 'and 'template)
+
+(bye)
+
+			
+
+'(the simplest option would be to save the template data in attributes:
+(put 'and 'template '(1 " and " 2))
 but...)
 
 '(are pieces classes or pairs?)
@@ -83,9 +135,6 @@ ft
 (system.update:install-allegrograph)
  
  
- 
- 
- 
 (repr (node)) or (docs (node))
  
  
@@ -93,3 +142,5 @@ ft
  
  
 (menu loop)
+ 
+ 
