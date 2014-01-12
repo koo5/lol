@@ -1,0 +1,2 @@
+#!/bin/sh
+BROWSER=firefox exec /home/kook/picolisp/bin/picolisp /home/kook/picolisp/lib.l /home/kook/picolisp/ext.l "$@" +

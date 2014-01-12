@@ -5,11 +5,11 @@
 '(the data structures of this program:
 	node - 
 		an ast node..its unclear what it will mean here. the program should be able to 	render its own source code in a semi-lemonic way, and be fully able to manipulate its own native nodes..which might be the same, or not...
-	pieces - 
+	bit - 
 		newline, child(name), "text", space; these say how a node should appear
-	template - 
+	bits - 
 		a sequence of pieces
-	markup - the resulting tree structure that the renderer deals with
+	hc - hypercode:\) the resulting tree structure that the renderer deals with
 )
 
 (de hc (N)
@@ -17,29 +17,29 @@
 )
 
 (de bits4node (N)
-	(if (lst? N)
-		(if (== (car N) NIL)
+	'(println (get (car N) 'template))
+	(cond 
+		((and (lst? N) (==  (car N) NIL))
 			'((t "nil")))
-		(if (get (car N) 'template)
-			'((@)))
+		((and (lst? N) (get (car N) 'template))
+			@ )0
+		((T) '("fuck"))
 	)
 )
 
 (de hc4bits (N B)
 	(println "generating markup for node" N "with template" B)
-	(append '((node N)) (mapcar hc4bit T) '((/node)))
+	(append '((node N)) (mapcar hc4bit B) '((/node)))
 )
 
 (de hc4bit (B)
 	(let (V (cdr B))
 		(case (car B)
-			('t V)
-			(T "fuck" )
+			(t V)
+			(T B )
 		)
 	)
 )
-
-(put 'and 'template '((t "1 and 2")))
 
 (load "s2.l")
 
@@ -47,6 +47,9 @@
 
 
 (setq l1 '(and 2 3))
+(put 'and 'template '((t "1 and 2")))
+
+
 (println (hc l1))
 
 '(get 'and 'template)
@@ -144,3 +147,8 @@ ft
 (menu loop)
  
  
+....
+
+(de to_lemon
+vsechno lemon
+list
