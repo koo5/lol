@@ -19,15 +19,22 @@
 )
 
 (de bits4node (N)
-	'(println (get (car N) 'template))
 	(cond 
-		((and (lst? N) (==  (car N) NIL))
-			'((t "nil")))
-		((and (lst? N) (get (car N) 'template))
-			@ )0
-		((T) '("fuck"))
+		((and 
+			(lst? N) 
+			(==  (car N) NIL))
+		'((t "nil")))
+		
+		((and 
+			(lst? N) 
+			(get (car N) 'template))
+		@)
+		
+		(T 
+		'((t "fuck")))
 	)
 )
+'(debug 'bits4node)
 
 (de hcml4bits (N B)
 	(println "generating markup for node" N "with template" B)
@@ -44,27 +51,63 @@
 )
 
 
-(de to_lemon (N) (list 'l '(metadata) N))
+(de to_lemon (N) (list 'l ''(metadata) N))
 
 (de l (N)
-	(println "executing" N)
+	(println "executing" (cddr N))
 	((cddr N))
 )
 
+
+
+
+(de trc (N) 
+	(if 
+		(and 
+			(lst? N) 
+			(= (car N) 'de)) 
+		(trace (car (cdr N))))
+)
+
+
 ))(l0)
 
-'(mapc '((N) (if (and (lst? N) (= (car N) 'de)) (trace (cdr N)))) 'l0)
-(mapc 'println l0)
+
+(println (lintAll))
+(println "tracing:" (mapcar 'trc l0))
+
+
 (setq l1 (to_lemon '(and 2 3)))
 
 (put 'and 'template '((ch 1)(t " and ")(ch 2)))
 (put 'and 'template '((ch 1)(t " and ")(ch 2)(t " and ")(ch 3)))
 
-(println (hcml4node l1))
+(println "HCML" (hcml4node l1) "/HCML" )
 
+(println "running" l1)
 (l1)
 
+
+
+
+
+
+
+
+
+
+
 (bye)
+
+
+
+
+
+
+
+
+
+
 
 			
 

@@ -1,0 +1,76 @@
+
+
+
+the code is an array of things
+
+#each thing can be:
+
+[
+import:
+	is a statement
+	has a list of modules to import
+
+
+
+
+opening file:
+	syntax:
+		OPEN_FILE string(name) FILE_OPENING_PARAMETERS
+			assign filename
+		OPEN file FILE_OPENING_PARAMETERS
+			
+		
+		FILE_OPENING_PARAMETERS ::= 
+		
+	function:
+		
+
+"init pygame":
+	environment["imported modules"]["pygame"].init()
+
+
+interpreter:
+	set up the environment
+		#what environment?
+			the inner, execution environment, the namespace in which the interpreted program lives
+	pythonian:
+		environment = dict()
+		environment["imported modules"] = dict()
+	repeat for every thing in code:
+		if type is:
+			import:
+				for item in list of modules:
+					#import it into the environment
+					environment["imported modules"][item] = __import__(item)
+			open file:
+				
+
+
+
+python autocompletion/menu
+
+*
+
+dir:
+	
+	
+
+<precache all files played in the code>
+dreams
+
+
+paren arriving sound <something new> is "paren-arrived.vaw" <is a file>
+
+
+
+when paren arrives:
+	play paren arriving sound
+	
+	
+	
+	
+	
+	
+
+
+
