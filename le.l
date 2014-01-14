@@ -1,19 +1,21 @@
 (setq l0 '(prog
+(load "s2.l")
 
 '(put the whole program into variable l0, so we can access it later and edit it as l1 in the ide)
 
 '(the data structures of this program:
 	node - 
-		an ast node..its unclear what it will mean here. the program should be able to 	render its own source code in a semi-lemonic way, and be fully able to manipulate its own native nodes..which might be the same, or not...
+		an ast node..its unclear what it will mean here. the program should be able to 	render its own source code in a semi-lemonic way, and be fully able to manipulate its own native nodes..which might be the same, or not...(list x object?)
+
 	bit - 
 		newline, child(name), "text", space; these say how a node should appear
 	bits - 
 		a sequence of pieces
-	hc - hypercode:\) the resulting tree structure that the renderer deals with
+	hcml - hypercode:\) the resulting tree structure that the renderer deals with
 )
 
-(de hc (N)
-	(hc4bits N (bits4node N))
+(de hcml4node (N)
+	(hcml4bits N (bits4node N))
 )
 
 (de bits4node (N)
@@ -27,12 +29,12 @@
 	)
 )
 
-(de hc4bits (N B)
+(de hcml4bits (N B)
 	(println "generating markup for node" N "with template" B)
-	(append '((node N)) (mapcar hc4bit B) '((/node)))
+	(append '((node N)) (mapcar hcml4bit B) '((/node)))
 )
 
-(de hc4bit (B)
+(de hcml4bit (B)
 	(let (V (cdr B))
 		(case (car B)
 			(t V)
@@ -41,18 +43,26 @@
 	)
 )
 
-(load "s2.l")
+
+(de to_lemon (N) (list 'l '(metadata) N))
+
+(de l (N)
+	(println "executing" N)
+	((cddr N))
+)
 
 ))(l0)
 
+'(mapc '((N) (if (and (lst? N) (= (car N) 'de)) (trace (cdr N)))) 'l0)
+(mapc 'println l0)
+(setq l1 (to_lemon '(and 2 3)))
 
-(setq l1 '(and 2 3))
-(put 'and 'template '((t "1 and 2")))
+(put 'and 'template '((ch 1)(t " and ")(ch 2)))
+(put 'and 'template '((ch 1)(t " and ")(ch 2)(t " and ")(ch 3)))
 
+(println (hcml4node l1))
 
-(println (hc l1))
-
-'(get 'and 'template)
+(l1)
 
 (bye)
 
@@ -149,6 +159,15 @@ ft
  
 ....
 
-(de to_lemon
-vsechno lemon
-list
+vsechno lemon (vs specialni handlovani lispu a lemonu)
+-> (de to_lemon (N),,,
+
+list x object?
+
+(l (metadata) (and 1 2))
+
+and:
+	(1 "and" 2)
+	(1 "and" 2 "and" 3)
+
+
