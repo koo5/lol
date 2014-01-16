@@ -1,4 +1,5 @@
 (setq l0 '(prog
+
 (load "s2.l")
 
 '(put the whole program into variable l0, so we can access it later and edit it as l1 in the ide)
@@ -14,8 +15,19 @@
 	hcml - hypercode:\) the resulting tree structure that the renderer deals with
 )
 
+
+
+
 (de hcml4node (N)
 	(hcml4bits N (bits4node N))
+)
+
+(de to_lisp (N)
+	(list (car (cddr N)))
+)
+
+(de function_name (N)
+	(car (to_lisp N))
 )
 
 (de bits4node (N)
@@ -27,7 +39,7 @@
 		
 		((and 
 			(lst? N) 
-			(get (car N) 'template))
+			(get (function_name N) 'template))
 		@)
 		
 		(T 
@@ -61,21 +73,42 @@
 
 
 
-(de trc (N) 
+(de function_definition? (N) 
 	(if 
 		(and 
 			(lst? N) 
 			(= (car N) 'de)) 
-		(trace (car (cdr N))))
+		(car (cdr N)))
+
+(de unused(X)())
+
+(de print_banner()
+	'(just a funky line that helps me not to get lost in the terminal output)
+	(for I 10 (unused I)(printsp '-))
+	(prin "lemon operating language")
+	(for I 10 (unused I)(printsp '-))
+	(prinl)
 )
 
+)
 
-))(l0)
+(setq Defuns (extract 'function_definition? l0))
 
+))
+(l0)
+'(view (extract 'function_definition? l0))
+'(println (lintAll))
+'(extract '((N)(println N)) l0)
+'(trace 'lint)
+'(view (lint 'l))
 
-(println (lintAll))
-(println "tracing:" (mapcar 'trc l0))
+(let lint_output (extract '((N)(if (lint N) (list N @))) Defuns)
+	'(wait for lint output before printing the banner)
+	(print_banner)
+	(println 'lint ': lint_output)
+)
 
+(println "tracing:" (extract 'trace Defuns))'???
 
 (setq l1 (to_lemon '(and 2 3)))
 
@@ -109,6 +142,9 @@
 
 
 
+(de l_section (NAME CODE))
+(put 'l_section 'template '((t "section ")(ch 1)(t "\n")(ch 2)))
+(l_section 
 			
 
 '(the simplest option would be to save the template data in attributes:
