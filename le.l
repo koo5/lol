@@ -17,17 +17,12 @@
 
 
 
+(de text4node (N)
+	(filter '((X)(=(car X) 't)) (hcml4node N))
+)
 
 (de hcml4node (N)
 	(hcml4bits N (bits4node N))
-)
-
-(de to_lisp (N)
-	(list (car (cddr N)))
-)
-
-(de function_name (N)
-	(car (to_lisp N))
 )
 
 (de bits4node (N)
@@ -49,25 +44,42 @@
 '(debug 'bits4node)
 
 (de hcml4bits (N B)
-	(println "generating markup for node" N "with template" B)
-	(append '((node N)) (mapcar hcml4bit B) '((/node)))
+	(append '((node N)) (mapcar '((B)(hcml4bit N B))) '((/node)))
 )
 
-(de hcml4bit (B)
+(de hcml4bit (N B)
 	(let (V (cdr B))
 		(case (car B)
-			(t V)
-			(T B )
+			(t B)
+			(ch (hcml4node (get_child N V)))
+			(T B)
 		)
 	)
 )
 
+(de get_child (N I)
+	(nth N (+ I 1))
+)
 
-(de to_lemon (N) (list 'l ''(metadata) N))
+(de to_lemon (N) 
+	(if (lst? N)
+		(mapcar 'to_lemon N)
+		(list 'l_ ''(metadata) N))
+)
+		
+(de to_lisp (N)
+	(if (= (car N) 'l_)
+		(car (cddr N))
+		(mapcar 'to_lisp N))
+)
 
-(de l (N)
-	(println "executing" (cddr N))
-	((cddr N))
+(de function_name (N)
+	(car (to_lisp N))
+)
+
+
+(de l_ X
+	(car (cdr X))
 )
 
 
@@ -79,6 +91,7 @@
 			(lst? N) 
 			(= (car N) 'de)) 
 		(car (cdr N)))
+)
 
 (de unused(X)())
 
@@ -90,12 +103,13 @@
 	(prinl)
 )
 
-)
 
 (setq Defuns (extract 'function_definition? l0))
 
 ))
+
 (l0)
+
 '(view (extract 'function_definition? l0))
 '(println (lintAll))
 '(extract '((N)(println N)) l0)
@@ -108,104 +122,17 @@
 	(println 'lint ': lint_output)
 )
 
-(println "tracing:" (extract 'trace Defuns))'???
+(println "tracing:" (extract 'trace Defuns))
 
 (setq l1 (to_lemon '(and 2 3)))
 
 (put 'and 'template '((ch 1)(t " and ")(ch 2)))
 (put 'and 'template '((ch 1)(t " and ")(ch 2)(t " and ")(ch 3)))
 
-(println "HCML" (hcml4node l1) "/HCML" )
-
-(println "running" l1)
-(l1)
-
-
-
-
-
-
-
-
-
-
-
-(bye)
-
-
-
-
-
-
-
-
-
-
-
-(de l_section (NAME CODE))
-(put 'l_section 'template '((t "section ")(ch 1)(t "\n")(ch 2)))
-(l_section 
-			
-
-'(the simplest option would be to save the template data in attributes:
-(put 'and 'template '(1 " and " 2))
-but...)
-
-'(are pieces classes or pairs?)
-
-(de tt (X)
-	(let V (cdr X)
-		(println (car X) V)
-		(case (car X)
-			('t 'V)
-			('ch (tt V))
-			('nl "\n")
-			(T V)
-		)
-	)
-)
-
-
-(de repr(N)
-(if (get 'X 'repr)
-		(mapcar ((I
-		(
-
-
-(class +Node)
-
-
-
-items....how much do i want to keep plain text representation usable? should text still be a string and get special handling? or do i depend on the editor fully?
-
-no markup: you have a list processing language, ..
-
-
-(class +Piece)
-
-(class +Text +Piece)
-(T (V)(=: v V))
-(dm repr> ()
-	('(: v))
-
-
+(println "l1:" l1 )
+(println "text:" (text4node l1) )
 	
-(assertz '(representation (and '(1 "and" 2))))
-
-(de representation(N)
-	(let (R R)
-		(pilog (list(list 'representation N '@X))
-			(setq R @X)
-		)
-	)
-)
-tt
-ft
-
-
-
-
-(assertz '(has_class (
+'(l1)
 
 
 
@@ -214,39 +141,6 @@ ft
 
 
 
-......
 
-(l0)
-(setq l1 l0)
-(loop)
-
-
-(require :update)
-(assertz '(repr require ((t "
- 
-(system.update:install-allegrograph)
- 
- 
-(repr (node)) or (docs (node))
- 
- 
- 
- 
- 
-(menu loop)
- 
- 
-....
-
-vsechno lemon (vs specialni handlovani lispu a lemonu)
--> (de to_lemon (N),,,
-
-list x object?
-
-(l (metadata) (and 1 2))
-
-and:
-	(1 "and" 2)
-	(1 "and" 2 "and" 3)
 
 
